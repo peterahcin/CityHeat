@@ -1,8 +1,12 @@
 import pandas as pd
-from preprocessing import add_fuel_from_measured_sources, calculate_fuel_from_conversion_factors, make_sum_table
-from preprocessing import total_fuel_consumption, fuel_consumption_by_type, fuels_by_share, add_system_info
-from path_definition import all_cities, city_paths
-from values import fuel_columns, na_fuel_efficiency, class_labels, class_borders, system_info_columns
+# mostly assume root of project is the current path where module is run so module imports should mostly follow that
+# import dir.file
+# import dir.dir.file.func
+# etc...
+from utils.preprocessing import add_fuel_from_measured_sources, calculate_fuel_from_conversion_factors, make_sum_table
+from utils.preprocessing import total_fuel_consumption, fuel_consumption_by_type, fuels_by_share, add_system_info
+from paths.path_definition import all_cities, city_paths
+from values.values import fuel_columns, na_fuel_efficiency, class_labels, class_borders, system_info_columns
 import numpy as np
 import pickle
 import warnings

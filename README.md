@@ -17,6 +17,12 @@ Depending on how a particular municipality collects and organizes its data, you 
 
 After the scripts are preprocessed run scripts with municipality name in lowercase:
 
+# could use an ETL like tool for individual steps and linking everything together
+# there are a metric ton of them but something simple and as close to python as possible would be a good choice.
+# as an example https://www.bonobo-project.org/#in-action
+
 - prepare_input_for_prediction.py (this script all the necessary building info for the prediction model)
 - generate_predictions.py (predicts heat consumption per m2 for each building in city)
 - main.py (generates table containing heat and all fuel consumption for each building and a summary table by sectors)
+
+# Consider adding a brief desciption on how to get things runing from scratch. Start to finish.

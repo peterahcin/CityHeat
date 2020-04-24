@@ -1,0 +1,5 @@
+# Requirements files are great for simple or midsize projects
+# Usually one per for dev, test and prod and can reference a base file that's commone to all
+# run with pip install -r requirements.txt
+pandas
+sklearn

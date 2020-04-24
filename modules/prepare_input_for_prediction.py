@@ -1,3 +1,7 @@
+# mostly assume root of project is the current path where module is run so module imports should mostly follow that
+# import dir.file
+# import dir.dir.file.func
+# etc...
 import pandas as pd
 from paths.path_definition import all_cities, city_paths
 from values import OB_MID_dict, area_use_codes, area_use_columns, heated_area_codes
@@ -6,9 +10,12 @@ from preprocessing import fill_and_mark, imputer_kNeighbors, missing_data, \
 import warnings
 warnings.filterwarnings('ignore')
 
-
+# Constants usually uppercased
+# A good solution is to start using mypy and pylint to catch most of these kind of things
+# They are a bit nitpicky so configure them away from defaults if needed
 city_name = 'cerklje_na_gorenjskem'
 paths = city_paths[city_name]
+# try not to mix upper/lower case
 OB_MID = OB_MID_dict[city_name]
 surface_variable = 'UPORABNA_POVRSINA'
 print(f'\nUsea areas normalized with: {surface_variable}.\n'
@@ -16,6 +23,7 @@ print(f'\nUsea areas normalized with: {surface_variable}.\n'
 
 # read stavbe
 # columns to load from tables
+# Move stuff like this to a shared constants file. Mostly this improves readability.
 cols_stavbe = ['STA_SID',
                'OB_MID',
                'ST_ETAZ',
@@ -30,6 +38,8 @@ cols_stavbe = ['STA_SID',
                'ID_KONSTRUKCIJE',
                'ID_OGREVANJE']
 
+# Reading files should be expressed as a generic function
+# *arg, **kwargs can help for variable parameters in read_csv calls
 stavbe_path = all_cities['root'] / all_cities['stavbe']
 stavbe = pd.read_csv(
     stavbe_path,
@@ -80,9 +90,11 @@ temp_deficit = pd.read_csv(
     usecols=['TEMP_DEFICIT', 'STA_SID']
 )
 
+# Think about having all related processing to a particular data source enclosed in one code unit (class function)
+# Program flow is hard to follow if objects are modified in unrelated places.
+# Or separate units by desired output. A fairly common pattern is to have input->process->output as separate steps
 # add temperature deficit to main table
 df = stavbe.join(temp_deficit, how='left')
-
 
 # missing data
 # drop entries where areas m2 not given
@@ -106,6 +118,8 @@ df['LETO_OBN_OKEN'] = delistavb.groupby('STA_SID')['LETO_OBN_OKEN'].median().ast
 
 # MISSING DATA
 # print out the ratios of missing values
+# Don't be afraid to use descriptive names for functions print_missing_data_in_data_frame() essentially does the job of
+# also commenting on what is happening.
 missing_data(df)
 
 
@@ -138,7 +152,8 @@ df.loc[df['ST_ETAZ'].isna(), 'ST_ETAZ'] = (
 )
 
 # impute missing values in ST_PRIT_ETAZE
-df.loc[df['ST_PRIT_ETAZE'].isna(), 'ST_PRIT_ETAZE'] = (
+df.loc[
+    df['ST_PRIT_ETAZE'].isna(), 'ST_PRIT_ETAZE'] = (
     imputer_kNeighbors(
         df,
         attrib_to_impute='ST_PRIT_ETAZE',

@@ -1,4 +1,4 @@
-from path_definition import all_cities
+from paths.path_definition import all_cities
 import pandas as pd
 
 
