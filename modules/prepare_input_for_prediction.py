@@ -248,3 +248,14 @@ df.to_csv(
 )
 print(f'Result saved to {file_path}')
 # print(df[area_use_columns].sum())
+
+# Get in the habit of having a block for executable code explicitly defined
+#
+# functions and other code units go here
+#
+# if __name__ == "__main__":
+#   code to be executed as a script goes here
+#
+# that way I can still import from the module and not calling all the unnecessary stuff
+# top level statements other than constants should really be avoided and move anything that's needed for module setup
+# to __init__.py

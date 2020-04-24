@@ -16,6 +16,7 @@ X = pd.read_csv(
 
 # load model
 with open(all_cities['root'] / model['models'] / (model_name + '.pkl'), 'rb') as f:
+    # again why pickles?
     m = pickle.load(f)
 
 # load corresponding columns

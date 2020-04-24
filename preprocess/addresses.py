@@ -4,6 +4,8 @@ from paths.path_definition import all_cities
 
 PATH_ROOT = 'C:/Users/petera/Documents/Energy_Atlas_code/'
 PATH_REN = 'Data/All_cities/REN_all_cities/'
+# Try and keep constant names consistent all upper case is the prefered way.
+# refer to PEP 8 for best practices https://www.python.org/dev/peps/pep-0008/#constants
 file_name_naslovi = 'REN_SLO_stavba_naslovi_20191228.csv'
 PATH_ADDRESSES = 'Data/All_cities/Naslovi/'
 file_name_streets = 'SI.GURS.RPE.PUB.UL_VSE.csv'

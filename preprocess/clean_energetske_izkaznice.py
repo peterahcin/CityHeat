@@ -8,6 +8,7 @@ addresses = pd.read_csv(
     encoding='cp1250',
 )
 
+# constants should be upper cased
 cols = [#'building_community',
         'card_number',
         #'epdb_classification',
@@ -128,6 +129,16 @@ print(' - Set solar thermal entries 0 where equal to solar PV - assumed duplicat
 
 
 # Where e_s approx. 2x/3x/4x qfh_au and the fuel quantities are almost equal set all but last fuel to 0
+# Could also call stuff like this as
+# ENTRIES = [
+#     ['ELKO', 'ZP', 'BIOMASS'],
+#     ['ELKO', 'BIOMASS'],
+#     ['ELKO', 'ZP'],
+#     #...
+# ]
+# for entry in ENTRIES:
+#     eliminate_entries_with_multiple_entry_fuels(audits, *entry):
+
 eliminate_entries_with_multiple_entry_fuels(audits, 'ELKO', 'ZP', 'BIOMASS')
 eliminate_entries_with_multiple_entry_fuels(audits, 'ELKO', 'BIOMASS')
 eliminate_entries_with_multiple_entry_fuels(audits, 'ELKO', 'ZP')

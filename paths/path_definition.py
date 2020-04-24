@@ -1,6 +1,13 @@
 from pathlib import Path
 
 all_cities = dict({
+    # move stuff like this to a settings file.
+    # you don't have to explicitly have an ini file or simillar a settings.py will do for a quick and dirty solution
+    # so this would be
+    # settings.py
+    # ROOT_PATH=Path('C:/Users/petera/Documents/Envirodual')
+    # path_definition.py
+    # 'root': ROOT_PATH,
     'root': Path('C:/Users/petera/Documents/Envirodual'),
     'results': Path('results'),
     'addresses_all': Path('data/ALL_CITIES/naslovi/addresses_all.csv'),
@@ -37,6 +44,33 @@ cerklje_na_gorenjskem = dict({
     'gas_inactive_raw': Path('data/cerklje_na_gorenjskem/plinski_prikljucki/neaktivni_prikljucki_cerklje_n_g.xlsx'),
     'active_gas_cleaned': Path('data/cerklje_na_gorenjskem/plinski_prikljucki/aktivni_prikljucki_cleaned.csv'),
 })
+
+# some of these can probably be unified
+# maybe a lightweight class with props
+# I know it's harder to organize this way
+# since sources some as they come but trying to do it in a more general way means it's easier to automate
+# this kind of thing
+#
+# class CityFileSourceDescriptor():
+#     def __init__(self, name, code):
+#         self.name = name
+#         self.code = code
+#
+#     @property
+#     def ren(self):
+#         return f'Data/{self.name}/REN'
+#
+#     @property
+#     def ren(self):
+#         return f'Data/{self.name}/REN'
+#
+#     def addresses(self):
+#         return f'REN/REN_{self.code}_stavbe_naslovi.csv'
+#
+#
+# cerknica = CityFileSourceDescriptor('Cerknica', '013')
+# kranj = CityFileSourceDescriptor('Medvode', '071')
+# etc...
 
 
 cerknica = dict({

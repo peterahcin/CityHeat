@@ -6,6 +6,17 @@ import pandas as pd
 from utils.preprocessing import add_fuel_from_measured_sources, calculate_fuel_from_conversion_factors, make_sum_table
 from utils.preprocessing import total_fuel_consumption, fuel_consumption_by_type, fuels_by_share, add_system_info
 from paths.path_definition import all_cities, city_paths
+# try to avoid any implicit calls to user code in module imports
+# Any module setup should go to __init__.py
+# while values.py should contain the callable units
+# consider what happens when a naked statment is left in value.values at the top level
+# like:
+# a=open('some_nonexsistant_file.csv')
+#
+# as soon as you do an import fuel_columns from values.values the above line still executes when the interpreter is
+# trying to do loading of all dependecies. So this is not a runtime error but a "link time" problem. These are harder to
+# troubleshoot by nature implicit and harder to think about.
+
 from values.values import fuel_columns, na_fuel_efficiency, class_labels, class_borders, system_info_columns
 import numpy as np
 import pickle
@@ -14,13 +25,38 @@ warnings.filterwarnings('ignore')
 
 
 # load sector area use codes
+# Why a pickle? There is no benefit and makes this unnecessarily complex.
 use_codes_path = all_cities['root'] / 'values/use_codes_dict.pkl'
 with open(use_codes_path, 'rb') as f:
     use_codes = pickle.load(f)
 
-
+# I assume this is how you switch between cities. Try and use program arguments for this.
 city_name = 'kranj'
 paths = city_paths[city_name]
+
+# Sections like these are ok but this should really be moved to a separate module like data_load or something similar
+# Generally I'd try to unify the loading and having each source separated per code unit (class, function)
+# Try and find common things that you can express as reusable units
+# def read_source(path, **kwargs):
+#     try:
+#         return pd.read_csv(
+#             path,
+#             kwargs
+#         )
+#     except:
+#         return pd.DataFrame()
+#     finally:
+#         pass
+#
+# SOURCES = [
+#     all_cities['root'] / paths['REN_cleaned'], {'index_col': 'STA_SID'},
+#     all_cities['root'] / paths['addresses_all'], {'encoding', 'cp1250'}
+# ]
+#
+# for source_descriptor in SOURCES:
+#     source = read_source(source_descriptor[0], source_descriptor[1])
+# Generally the benefit in the above would be the common exception handling for all sources. Just as an example.
+# You can do post processing and data correction in later steps. Generally follow DRY. Not only in python.
 
 
 ######################

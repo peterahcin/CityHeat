@@ -3,6 +3,8 @@ from paths.path_definition import all_cities, city_paths
 from values import system_efficiencies
 from preprocessing import heat_conversion_factors
 import warnings
+
+# We like warnings they tell us stuff that needs fixing at least add a comment explaining why something is disabled.
 warnings.filterwarnings('ignore')
 
 city_name = 'cerklje_na_gorenjskem'
