@@ -1,5 +1,6 @@
 import pandas as pd
 from path_definition import all_cities, model
+# Avoid unnecessary imports
 from preprocessing import remove_symbols_from_series
 
 
@@ -17,6 +18,7 @@ cols = [
     'au',
     'qsum',
     'qsum_au',
+    # Avoid commented out code blocks
     # 'qel',
     # 'qel_au',
     # 'qp',

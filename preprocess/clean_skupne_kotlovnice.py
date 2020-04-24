@@ -4,6 +4,10 @@ from values import eff_dict, system_efficiencies
 from preprocessing import heat_conversion_factors
 from preprocessing import make_categorical_features
 
+# The files in preprocess can be substituted for functions
+# As such they are to big. Try and keep code units to max 20-30 lines on functions.
+# Obvioulsy classes are a different matter. But still smaller is generally better.
+
 city_name = 'cerklje_na_gorenjskem'
 paths = city_paths[city_name]
 
