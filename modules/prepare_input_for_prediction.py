@@ -118,8 +118,9 @@ df['LETO_OBN_OKEN'] = delistavb.groupby('STA_SID')['LETO_OBN_OKEN'].median().ast
 
 # MISSING DATA
 # print out the ratios of missing values
-# Don't be afraid to use descriptive names for functions print_missing_data_in_data_frame() essentially does the job of
-# also commenting on what is happening.
+# Don't be afraid to use descriptive names for functions
+# print_missing_ratios_in_data_frame or print_missing_ratio_values
+# essentially does the job of also commenting on what is happening.
 missing_data(df)
 
 
@@ -129,6 +130,11 @@ df = fill_and_mark(df, 'LETO_IZG_STA', v)
 
 
 # If building rennovation year not given, set rennovation to construction year
+# variable naming is better explicit than implicit shorthand:
+# df=data_frame
+# idx=_index
+# c=column
+# it's easier to read after a couple of months
 for c in ['LETO_OBN_OKEN', 'LETO_OBN_STREHE', 'LETO_OBN_FASADE']:
     df['NA_'+c] = 0
     idx = (df[c].isna()) | (df[c] == 0)
@@ -137,6 +143,9 @@ for c in ['LETO_OBN_OKEN', 'LETO_OBN_STREHE', 'LETO_OBN_FASADE']:
 
 
 # fill missing data and one hot encode nans
+# long lists are better as a constant
+# RELEVANT_COLUMNS=['ID_TIP_STAVBE', 'ID_OGREVANJE', 'ID_KONSTRUKCIJE', 'DEJANSKA_RABA', 'TEMP_DEFICIT']
+# for column in RELEVANT_COLUMNS:
 for c in ['ID_TIP_STAVBE', 'ID_OGREVANJE', 'ID_KONSTRUKCIJE', 'DEJANSKA_RABA', 'TEMP_DEFICIT']:
     v = df[c].median()
     df = fill_and_mark(df, c, v)
@@ -152,6 +161,13 @@ df.loc[df['ST_ETAZ'].isna(), 'ST_ETAZ'] = (
 )
 
 # impute missing values in ST_PRIT_ETAZE
+# having imputer_kNeighbors return a wrapped tuple looks to be better than having to do it on all calls
+# if you need an unwrapped call somewhere just do two functions
+# def a():
+#  return (b(),)
+#
+# def b():
+#   return []
 df.loc[
     df['ST_PRIT_ETAZE'].isna(), 'ST_PRIT_ETAZE'] = (
     imputer_kNeighbors(
@@ -203,6 +219,7 @@ for r, c in zip(area_use_codes, area_use_columns):
     tmp = delistavb.loc[delistavb.DEJANSKA_RABA == r][['STA_SID', 'UPOR_POV_STAN']]
     tmp = tmp.groupby('STA_SID')['UPOR_POV_STAN'].sum()
     df.loc[tmp.index, c] = tmp.values
+# commented out code should usually be removed no point in keeping it longer than just the dev cycle
     # t = df.loc[tmp.index, c]
     # print(round(t.sum()), round(tmp.values.sum()), ' ', c)
 
